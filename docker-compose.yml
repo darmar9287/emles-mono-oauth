@@ -8,7 +8,7 @@ services:
       - ./db_creation.sql:/docker-entrypoint-initdb.d/1-init.sql
   redis:
     image: 'redis:latest'
-  oauthengine:
+  emlesoauth:
     build:
       dockerfile: ./Dockerfile
       context: ./
