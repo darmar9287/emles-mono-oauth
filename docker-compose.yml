@@ -1,0 +1,33 @@
+version: '3'
+services: 
+  postgres:
+    image: 'postgres:latest'
+    environment:
+        POSTGRES_PASSWORD: postgres_password
+    volumes:
+      - ./db_creation.sql:/docker-entrypoint-initdb.d/1-init.sql
+  redis:
+    image: 'redis:latest'
+  oauthengine:
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    volumes:
+      - ./:/app
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=emles_mono_oauth
+      - PG_TEST_DATABASE=emles_mono_oauth_test
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=
+    ports:
+      - '8080:8080'
+      - '5005:5005'
+    depends_on:
+      - postgres
+      - redis
+    command: ["./wait-for-it.sh", "postgres:5432", "-t", "60", "--", "mvn", "spring-boot:run"]
