@@ -91,7 +91,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/api/users/forgot_password", "/api/users/reset_password", "/api/users/activate_account", "/api/users/sign_up").permitAll()
-				.antMatchers("/api/admin/**").hasRole("ADMIN")
+				.antMatchers("/api/admin/**", "/api/product/create", "/api/product/update", "/api/product/delete",
+	            		"/api/order/delete", "/api/order/update", "/api/customer/delete").hasRole("ADMIN")
 				.antMatchers("/v2/api-docs", "/configuration/**", "/swagger/**", "/webjars/**", "/swagger-ui.html", "/swagger-resources/**").permitAll()
 				.accessDecisionManager(defaultOauthDecisionManager(roleHierarchy()))
 				.antMatchers(HttpMethod.GET, "/**").access("#oauth2.hasScope('read')")
