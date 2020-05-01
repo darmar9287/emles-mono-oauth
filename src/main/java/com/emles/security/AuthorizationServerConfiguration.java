@@ -71,6 +71,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	@Value("${spring.redis.port}")
 	private int redisPort;
 
+	@Value("${spring.redis.password}")
+	private String redisPassword;
+	
 	/**
 	 * authenticationManager - Authentication manager needed for password grant type.
 	 */
@@ -98,6 +101,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
 		config.setHostName(redisHost);
 		config.setPort(redisPort);
+		config.setPassword(redisPassword);
 		return new JedisConnectionFactory(config);
 	}
 
